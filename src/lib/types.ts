@@ -542,6 +542,121 @@ export type PatientOwnMedicationEntry = OwnMedicationEntry;
 export type HomeMedication = PatientOwnMedication;
 export type HomeMedicationEntry = OwnMedicationEntry;
 
+export interface HospitalBed {
+  id: string;
+  bedNo: string;
+  ward: 'ICU' | 'CCU' | 'Emergency' | 'General';
+  status: 'Occupied' | 'Available' | 'Maintenance' | 'Cleaning';
+  patientId?: string;
+  ventilatorId?: string;
+  hasVentilator: boolean;
+  hasDialysis: boolean;
+}
+
+export interface VentilatorDevice {
+  id: string;
+  deviceCode: string;
+  model: string;
+  ward: 'ICU' | 'CCU' | 'Emergency';
+  bedNo?: string;
+  patientId?: string;
+  status: 'In Use' | 'Available' | 'Standby' | 'Maintenance';
+  mode: string;
+  fio2: number;
+  peep: number;
+  tv: number;
+  rr: number;
+  peakPressure?: number;
+  etco2?: number;
+}
+
+export interface HospitalStaff {
+  id: string;
+  name: string;
+  role: 'Doctor' | 'Nurse' | 'RMO' | 'Consultant' | 'Technician' | 'Admin' | 'Reception';
+  department: string;
+  shift: 'Morning' | 'Evening' | 'Night' | 'General';
+  phone: string;
+  onDuty: boolean;
+  assignedBeds?: string[];
+}
+
+export interface ClinicalAlert {
+  id: string;
+  patientId: string;
+  patientName: string;
+  bedNo: string;
+  ward: string;
+  parameter: string;
+  value: string | number;
+  threshold: string;
+  severity: 'Critical' | 'Warning' | 'Watch';
+  timestamp: string;
+  acknowledged: boolean;
+  acknowledgedBy?: string;
+  acknowledgedAt?: string;
+}
+
+export interface LabReportItem {
+  parameter: string;
+  value: string;
+  numericValue?: number;
+  unit: string;
+  referenceRange: string;
+  flag: 'Normal' | 'High' | 'Low' | 'Critical';
+}
+
+export interface PatientLabReport {
+  id: string;
+  patientId: string;
+  testCategory: 'CBC' | 'RFT' | 'LFT' | 'Electrolytes' | 'Coagulation' | 'ABG' | 'Blood Culture' | 'Chest X-Ray' | 'ECG';
+  orderedBy: string;
+  dateTime: string;
+  status: 'Completed' | 'Pending' | 'Sample Collected';
+  items: LabReportItem[];
+  findings?: string;
+  attachmentName?: string;
+}
+
+export interface InfusionRecord {
+  id: string;
+  patientId: string;
+  drugName: string;
+  dose: string;
+  dilution: string;
+  rateMlHr: number;
+  doseRateMcgKgMin?: number;
+  route: string;
+  startedAt: string;
+  endedAt?: string;
+  nurseName: string;
+  status: 'Active' | 'Paused' | 'Completed' | 'Titrated';
+  notes?: string;
+}
+
+export interface ProcedureEvent {
+  id: string;
+  patientId: string;
+  dateTime: string;
+  procedureType: 'Intubation' | 'Central Line' | 'Arterial Line' | 'Hemodialysis' | 'CPR' | 'Extubation' | 'Chest Tube / Drain' | 'Tracheostomy' | 'Other';
+  performerName: string;
+  assistingNurse: string;
+  site?: string;
+  complications?: string;
+  notes: string;
+}
+
+export interface ClinicalScoreRecord {
+  id: string;
+  patientId: string;
+  dateTime: string;
+  scoreType: 'GCS' | 'SOFA' | 'NEWS2';
+  totalScore: number;
+  riskLevel: 'Low' | 'Moderate' | 'High' | 'Critical';
+  components: Record<string, number | string>;
+  evaluatedBy: string;
+}
+
 export interface ICUChart {
   id: string;
   patientId: string;
@@ -550,37 +665,102 @@ export interface ICUChart {
   shift?: string;
   nurseName: string;
   ioSourceId?: string; // Links to IOChartEntry — auto-populated when created from I/O chart
-  // Vitals
+  
+  // Vitals matching ICU.pdf
   bpSys: number;
   bpDia: number;
+  map?: number;
   pulse: number;
   tempF: number;
   rr: number;
   spo2: number;
+  cvp?: number;
+  painScore?: number;
   gcs: number;
   levelOfConsciousness: string;
   bloodSugar?: number;
-  // I/O (auto-reflected from IOChart)
+  
+  // Additional Monitoring Rows (ICU.pdf below graph)
+  heartRhythm?: string;
+  rhythm?: string;
+  sedationScore?: string;
+  sedation?: string;
+  abdominalGirthCm?: number; // A.G. (c.m.)
+  positionSuction?: string; // POS/SUCT
+  
+  // Drugs & Infusions (ICU.pdf)
+  insulinMoa?: string; // M.O.A. / INSULIN
+  medicationInfusion?: string;
+  infusion1Name?: string;
+  infusion1Rate?: string;
+  infusion2Name?: string;
+  infusion2Rate?: string;
+  infusion3Name?: string;
+  infusion3Rate?: string;
+  infusion4Name?: string;
+  infusion4Rate?: string;
+
+  // Intake Section (ICU.pdf)
+  bolusIntake?: number; // BOLUS
+  hourlyIvIntake?: number; // HOURLY I.V.
+  cumulativeIvIntake?: number; // CUMULATIVE I.V.
+  oralRtFeedType?: string; // ORAL / R.T.
+  oralRtAmount?: number; // AMOUNT
+  cumulativeOralRt?: number; // CUMULATIVE
+  hourlyTotalIntake?: number; // TOTAL INTAKE (hourly)
+  intakeTotal?: number; // Cumulative or slot intake
   totalIntake?: number;
-  totalOutput?: number;
-  ioBalance?: number;
   oralIntake?: number;
   ivFluids?: number;
+
+  // Output Section (ICU.pdf)
+  vomitAspirate?: number; // VOMIT / ASPIRATE
+  hourlyUrine?: number; // HOURLY URINE
+  cumulativeUrine?: number; // CUMULATIVE URINE
+  bowels?: string; // BOWELS
+  drain1Name?: string;
+  drain1Amount?: number; // DRAIN - I
+  drain2Name?: string;
+  drain2Amount?: number; // DRAIN - II
+  hourlyTotalOutput?: number; // TOTAL OUTPUT (hourly)
+  outputTotal?: number; // Cumulative or slot output
+  totalOutput?: number;
   urineOutput?: number;
   drainOutput?: number;
-  // Ventilator
+  ioBalance?: number;
+  hourlyBalance?: number;
+
+  // Ventilator & Respiratory (ICU.pdf Page 2)
   ventilatorStatus?: string;
   ventilatorMode?: string;
-  fiO2?: number;
   fio2?: number;
+  fiO2?: number;
   peep?: number;
-  // Medication
-  sedationScore?: string;
-  medicationInfusion?: string;
-  heartRhythm?: string;
-  // Observations
-  intakeTotal?: number;
-  outputTotal?: number;
+  tv?: number;
+  ventRate?: number;
+  pressSupport?: number;
+  tubeSize?: string;
+  tubeTiedAt?: string;
+
+  // ABG fields
+  abgPh?: number;
+  abgPao2?: number;
+  abgPaco2?: number;
+  abgHco3?: number;
+  lactate?: number;
+  peakPressure?: number;
+  etco2?: number;
+
+  // GCS components & Pupils (Page 2)
+  gcsEyes?: number;
+  gcsVerbal?: number;
+  gcsMotor?: number;
+  pupilSizeRight?: number;
+  pupilReactRight?: 'Normal' | 'Sluggish' | 'Fixed';
+  pupilSizeLeft?: number;
+  pupilReactLeft?: 'Normal' | 'Sluggish' | 'Fixed';
+
+  // Observations & Audit
   nursingObservations?: string;
   abnormalFindings?: string;
   remarks?: string;
@@ -707,4 +887,12 @@ export interface EMRStore {
   miniNutritionalAssessments: MiniNutritionalAssessment[];
   formMaster: FormMaster[];
   fieldMaster: FieldMaster[];
+  beds?: HospitalBed[];
+  ventilators?: VentilatorDevice[];
+  staff?: HospitalStaff[];
+  alerts?: ClinicalAlert[];
+  labReports?: PatientLabReport[];
+  infusions?: InfusionRecord[];
+  procedures?: ProcedureEvent[];
+  clinicalScores?: ClinicalScoreRecord[];
 }

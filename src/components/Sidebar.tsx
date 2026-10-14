@@ -7,7 +7,7 @@ import {
   AlertTriangle, Stethoscope, Shield, ArrowLeftRight, ShoppingBag,
   Heart, Sun, UserCheck, Dumbbell, Pill, BarChart2, Zap, GitBranch,
   ChevronDown, ChevronRight, Settings, BookOpen, RefreshCw,
-  Users, TestTube, Wind
+  Users, TestTube, Wind, Building2, ShieldCheck, UserPlus, BedDouble, HeartPulse
 } from 'lucide-react';
 import type { Patient } from '@/lib/types';
 
@@ -25,7 +25,10 @@ interface NavGroup {
 }
 
 const NAV_GROUPS: NavGroup[] = [
-  { id: 'dashboard', label: 'Dashboard', icon: <LayoutDashboard size={16} /> },
+  { id: 'home', label: 'Hospital Home', icon: <Building2 size={16} /> },
+  { id: 'dashboard', label: 'ICU / CCU Bed Grid', icon: <LayoutDashboard size={16} /> },
+  { id: 'patients', label: 'All Admitted Patients', icon: <Users size={16} /> },
+  { id: 'staff-admin', label: 'Beds & Staff Admin', icon: <ShieldCheck size={16} /> },
   {
     id: 'assessments-group',
     label: 'Patient Assessment',
@@ -120,7 +123,7 @@ const NAV_GROUPS: NavGroup[] = [
 ];
 
 // Admin tabs don't require patient
-const ADMIN_TABS = ['dashboard', 'form-master', 'field-master'];
+const ADMIN_TABS = ['home', 'dashboard', 'patients', 'staff-admin', 'icu', 'ccu', 'ventilators', 'form-master', 'field-master'];
 
 interface SidebarNavProps {
   activeTab: string;

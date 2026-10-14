@@ -6,15 +6,88 @@ import { Sidebar } from '@/components/Sidebar';
 import { Header } from '@/components/Header';
 import { PatientDashboard } from '@/components/PatientDashboard';
 import { NursingWorkspace } from '@/components/NursingWorkspace';
+import { HospitalHomePage } from '@/components/hospital/HospitalHomePage';
+import { ICUDashboard } from '@/components/hospital/ICUDashboard';
+import { EmergencyAdmissionModal } from '@/components/hospital/EmergencyAdmissionModal';
+import { AmbulanceModal } from '@/components/hospital/AmbulanceModal';
+import { StaffAdminPage } from '@/components/hospital/StaffAdminPage';
+import type { Patient } from '@/lib/types';
 
 export function AppShell() {
-  const { selectedPatient } = useEMR();
+  const { selectedPatient, selectPatient } = useEMR();
   const [sidebarOpen, setSidebarOpen] = useState(true);
-  const [activeTab, setActiveTab] = useState('dashboard');
+  const [activeTab, setActiveTab] = useState('home');
+  const [admissionModalOpen, setAdmissionModalOpen] = useState(false);
+  const [ambulanceModalOpen, setAmbulanceModalOpen] = useState(false);
 
   function handleTabChange(tab: string) {
+    if (tab === 'admission') {
+      setAdmissionModalOpen(true);
+      return;
+    }
     setActiveTab(tab);
   }
+
+  function handleOpenPatientChart(patient: Patient) {
+    selectPatient(patient);
+    setActiveTab('icu-chart');
+  }
+
+  function handleAdmissionSuccess(patient: Patient) {
+    setAdmissionModalOpen(false);
+    selectPatient(patient);
+    setActiveTab('icu-chart');
+  }
+
+  const renderMainContent = () => {
+    // 1. Hospital Home
+    if (activeTab === 'home') {
+      return (
+        <HospitalHomePage
+          onNavigate={(tab, patient) => {
+            if (patient) {
+              handleOpenPatientChart(patient);
+            } else {
+              setActiveTab(tab);
+            }
+          }}
+          onOpenAdmission={() => setAdmissionModalOpen(true)}
+          onOpenAmbulance={() => setAmbulanceModalOpen(true)}
+        />
+      );
+    }
+
+    // 2. ICU / CCU Bed Grid Dashboard
+    if (activeTab === 'dashboard' || activeTab === 'icu' || activeTab === 'ccu' || activeTab === 'ventilators' || activeTab === 'emergency') {
+      const initialFilter = activeTab === 'icu' ? 'ICU' : activeTab === 'ccu' ? 'CCU' : activeTab === 'ventilators' ? 'Ventilator' : activeTab === 'emergency' ? 'Emergency' : 'All';
+      return (
+        <ICUDashboard
+          onOpenPatientChart={handleOpenPatientChart}
+          onOpenAdmission={() => setAdmissionModalOpen(true)}
+          initialFilter={initialFilter}
+        />
+      );
+    }
+
+    // 3. Beds & Staff Admin
+    if (activeTab === 'staff-admin') {
+      return <StaffAdminPage />;
+    }
+
+    // 4. Patients Directory (when no patient selected or activeTab === 'patients')
+    if (activeTab === 'patients' || !selectedPatient) {
+      return (
+        <PatientDashboard
+          onSelectTab={tab => {
+            setActiveTab(tab);
+          }}
+        />
+      );
+    }
+
+    // 5. Patient Workspace (ICU Chart, Vitals, Assessment, etc.)
+    return <NursingWorkspace activeTab={activeTab} onTabChange={handleTabChange} />;
+  };
 
   return (
     <div className="flex h-screen overflow-hidden bg-slate-50">
@@ -26,8 +99,8 @@ export function AppShell() {
       />
 
       <div className="flex flex-col flex-1 overflow-hidden min-w-0">
-        <div className="demo-banner no-print">
-          ⚠ DEMONSTRATION APPLICATION — All patient data is fictional. Not for clinical use.
+        <div className="demo-banner no-print flex items-center justify-center gap-2">
+          <span>⚠ DEMONSTRATION & TRAINING HOSPITAL EMR — All patient records are fictional. Not for direct clinical diagnosis.</span>
         </div>
 
         <Header
@@ -37,13 +110,22 @@ export function AppShell() {
         />
 
         <main className="flex-1 overflow-y-auto">
-          {activeTab === 'dashboard' || !selectedPatient ? (
-            <PatientDashboard onSelectTab={handleTabChange} />
-          ) : (
-            <NursingWorkspace activeTab={activeTab} onTabChange={handleTabChange} />
-          )}
+          {renderMainContent()}
         </main>
       </div>
+
+      {/* Emergency Admission Modal */}
+      <EmergencyAdmissionModal
+        open={admissionModalOpen}
+        onClose={() => setAdmissionModalOpen(false)}
+        onSuccess={handleAdmissionSuccess}
+      />
+
+      {/* Ambulance Dispatch Modal */}
+      <AmbulanceModal
+        open={ambulanceModalOpen}
+        onClose={() => setAmbulanceModalOpen(false)}
+      />
     </div>
   );
 }

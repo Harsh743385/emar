@@ -4,6 +4,17 @@
 // ============================================================
 
 import type { EMRStore } from './types';
+import {
+  ADDITIONAL_PATIENTS,
+  INITIAL_BEDS,
+  INITIAL_VENTILATORS,
+  INITIAL_STAFF,
+  INITIAL_ALERTS,
+  INITIAL_LAB_REPORTS,
+  INITIAL_INFUSIONS,
+  INITIAL_PROCEDURES,
+  INITIAL_SCORES,
+} from './hospitalData';
 
 export const SEED_DATA: EMRStore = {
   patients: [
@@ -112,6 +123,7 @@ export const SEED_DATA: EMRStore = {
       emergencyContactName: 'Kavita Rawat (Mother)',
       status: 'Active',
     },
+    ...ADDITIONAL_PATIENTS,
   ],
 
   nursingAssessments: [
@@ -760,37 +772,7 @@ export const SEED_DATA: EMRStore = {
     },
   ],
 
-  icuCharts: [
-    {
-      id: 'ICU001',
-      patientId: 'P003',
-      date: '2026-10-13',
-      time: '08:00',
-      nurseName: 'Sr. Sampat Jain',
-      bpSys: 94,
-      bpDia: 62,
-      pulse: 102,
-      tempF: 98.2,
-      rr: 22,
-      spo2: 93,
-      gcs: 11,
-      levelOfConsciousness: 'Confused/Sedated',
-      ventilatorStatus: 'Mechanical ventilation - Volume Control',
-      fio2: 60,
-      peep: 8,
-      heartRhythm: 'Sinus Tachycardia',
-      intakeTotal: 1700,
-      outputTotal: 550,
-      medicationInfusion: 'Noradrenaline 0.1mcg/kg/min, Midazolam 2mg/hr, Morphine 2mg/hr',
-      nursingObservations: 'Patient sedated, on vasopressors, BP slightly improved from yesterday. Urine output low.',
-      abnormalFindings: 'Low urine output 150ml/8hr, Elevated BP despite vasopressors being reduced',
-      doctorInformed: true,
-      doctorName: 'Dr. Manoj Chawla',
-      escalationTime: '09:00',
-      status: 'Completed',
-      createdAt: '2026-10-13T08:00:00',
-    },
-  ],
+  icuCharts: [],
 
   diabeticFlowCharts: [
     {
@@ -1025,4 +1007,12 @@ export const SEED_DATA: EMRStore = {
       createdAt: '2026-01-01T00:00:00',
     },
   ],
+  beds: INITIAL_BEDS,
+  ventilators: INITIAL_VENTILATORS,
+  staff: INITIAL_STAFF,
+  alerts: INITIAL_ALERTS,
+  labReports: INITIAL_LAB_REPORTS,
+  infusions: INITIAL_INFUSIONS,
+  procedures: INITIAL_PROCEDURES,
+  clinicalScores: INITIAL_SCORES,
 };

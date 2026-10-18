@@ -11,6 +11,7 @@ import { ICUDashboard } from '@/components/hospital/ICUDashboard';
 import { EmergencyAdmissionModal } from '@/components/hospital/EmergencyAdmissionModal';
 import { AmbulanceModal } from '@/components/hospital/AmbulanceModal';
 import { StaffAdminPage } from '@/components/hospital/StaffAdminPage';
+import { NABHComplianceCenter } from '@/components/compliance/NABHComplianceCenter';
 import type { Patient } from '@/lib/types';
 
 export function AppShell() {
@@ -74,7 +75,12 @@ export function AppShell() {
       return <StaffAdminPage />;
     }
 
-    // 4. Patients Directory (when no patient selected or activeTab === 'patients')
+    // 4. NABH Accreditation & Quality Center
+    if (activeTab.startsWith('nabh-')) {
+      return <NABHComplianceCenter />;
+    }
+
+    // 5. Patients Directory (when no patient selected or activeTab === 'patients')
     if (activeTab === 'patients' || !selectedPatient) {
       return (
         <PatientDashboard

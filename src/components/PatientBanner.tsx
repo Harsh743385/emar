@@ -6,6 +6,7 @@ import { Bed, Stethoscope, Calendar, Phone } from 'lucide-react';
 
 const TAB_LABELS: Record<string, string> = {
   'initial-assessment': 'Initial Nursing Assessment',
+  'counselling-form': 'Patient & Family Counselling Form',
   'reassessment': 'Nursing Reassessment',
   'final-assessment': 'Final Assessment',
   'emergency-assessment': 'Emergency Assessment',
@@ -16,6 +17,7 @@ const TAB_LABELS: Record<string, string> = {
   'diabetic-chart': 'Diabetic Flow Chart',
   'nursing-notes': 'Progress Notes',
   'care-plan': 'Nursing Care Plan',
+  'family-education': 'Family Education Record',
   'mar': 'Medication Administration',
   'pressure-ulcer': 'Pressure Ulcer Assessment',
   'catheter-care': 'Urinary Catheter Care',

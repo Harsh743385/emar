@@ -3,6 +3,7 @@
 import { useEMR } from '@/context/EMRContext';
 import { PatientBanner } from './PatientBanner';
 import { NursingAssessmentTab } from './tabs/NursingAssessmentTab';
+import { PatientCounsellingTab } from './tabs/PatientCounsellingTab';
 import { VitalSignsTab } from './tabs/VitalSignsTab';
 import { IOChartTab } from './tabs/IOChartTab';
 import { NursingNotesTab } from './tabs/NursingNotesTab';
@@ -24,6 +25,7 @@ import { DiabeticChartTab } from './tabs/DiabeticChartTab';
 import { PhlebitisTab } from './tabs/PhlebitisTab';
 import { MiniNutritionTab } from './tabs/MiniNutritionTab';
 import { NursingCarePlanTab } from './tabs/NursingCarePlanTab';
+import { FamilyEducationTab } from './tabs/FamilyEducationTab';
 import { MARTab } from './tabs/MARTab';
 import { FormMasterTab } from './tabs/FormMasterTab';
 import { FieldMasterTab } from './tabs/FieldMasterTab';
@@ -41,6 +43,7 @@ export function NursingWorkspace({ activeTab }: NursingWorkspaceProps) {
   const renderTab = () => {
     switch (activeTab) {
       case 'initial-assessment': return <NursingAssessmentTab type="initial" />;
+      case 'counselling-form': return <PatientCounsellingTab />;
       case 'reassessment': return <NursingAssessmentTab type="reassessment" />;
       case 'final-assessment': return <NursingAssessmentTab type="final" />;
       case 'emergency-assessment': return <EmergencyAssessmentTab />;
@@ -51,6 +54,7 @@ export function NursingWorkspace({ activeTab }: NursingWorkspaceProps) {
       case 'diabetic-chart': return <DiabeticChartTab />;
       case 'nursing-notes': return <NursingNotesTab />;
       case 'care-plan': return <NursingCarePlanTab />;
+      case 'family-education': return <FamilyEducationTab />;
       case 'mar': return <MARTab />;
       case 'pressure-ulcer': return <PressureUlcerTab />;
       case 'catheter-care': return <CatheterCareTab />;

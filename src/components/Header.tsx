@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useEMR } from '@/context/EMRContext';
-import { Menu, Search, Bell, User, RefreshCw, X } from 'lucide-react';
+import { Menu, Search, Bell, User, RefreshCw, X, ShieldCheck } from 'lucide-react';
 import type { Patient } from '@/lib/types';
 
 interface HeaderProps {
@@ -82,6 +82,16 @@ export function Header({ onMenuClick, onTabChange }: HeaderProps) {
 
       {/* Right actions */}
       <div className="flex items-center gap-2 flex-shrink-0">
+        {/* NABH Accreditation Center */}
+        <button
+          onClick={() => onTabChange('nabh-compliance')}
+          className="flex items-center gap-1.5 px-3 py-1.5 bg-teal-50 hover:bg-teal-100 border border-teal-200 rounded-lg text-xs font-bold text-teal-800 transition-colors"
+          title="Open NABH Standards, EMR Field & Module Mapping System"
+        >
+          <ShieldCheck size={14} className="text-teal-600" />
+          <span className="hidden sm:inline">NABH Compliance</span>
+        </button>
+
         {/* Patient search */}
         <div className="relative">
           <button

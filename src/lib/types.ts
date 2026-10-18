@@ -926,6 +926,88 @@ export interface FieldMaster {
   createdAt: string;
 }
 
+// ============================================================
+// Patient & Family Counselling Form Types (ASH/COU/1)
+// ============================================================
+export type CounsellingProvider = 'Doctor' | 'Nurse' | 'Dietician' | 'Floor Co-ordinator' | 'Physiotherapy';
+export type TeachingMethodCode = 'D' | 'OD' | 'W';
+export type OutcomeCode = 'RD' | 'VU';
+
+export interface CounsellingTeachingEntry {
+  id: string;
+  provider: CounsellingProvider;
+  date: string;
+  time: string;
+  patientOrRelativeName: string;
+  relation: string;
+  learningNeeds: string[];
+  customLearningTopic?: string;
+  teachingMethods: TeachingMethodCode[];
+  outcomes: OutcomeCode[];
+  staffSign: string;
+  staffEid: string;
+}
+
+export interface PatientCounsellingForm {
+  id: string;
+  patientId: string;
+  patientName: string;
+  uhid: string;
+  department: string;
+  assessmentDate: string;
+  ipdNo: string;
+  // Barriers to learning
+  barriersToLearning: string[];
+  socialReligiousEducationalNeeds: string;
+  mentionBarriers: string;
+  religiousCulturalFactors: string;
+  // Plan to address factors
+  planToAddressFactors: string[];
+  // Written material given and explained
+  writtenMaterialGiven: string[];
+  // Admission assessment sign-off
+  completedBy: string;
+  completedTime: string;
+  admissionStaffSignWithId: string;
+  // Counselling entries
+  counsellingEntries: CounsellingTeachingEntry[];
+  // Patient & Relative Signatures
+  patientNameAndSign: string;
+  patientSignatureDataUrl?: string;
+  patientRelativeNameAndSign: string;
+  relationshipWithPatient: string;
+  relativeSignatureDataUrl?: string;
+  signatureDateTime: string;
+  // Status and metadata
+  status: RecordStatus;
+  createdAt: string;
+  updatedAt?: string;
+}
+
+// ============================================================
+// Family Education Module Types
+// ============================================================
+export interface FamilyEducationRecord {
+  id: string;
+  patientId: string;
+  date: string;
+  time: string;
+  educationTopics: string[];
+  customTopic?: string;
+  instructionsGiven: string;
+  educatedPersonName: string;
+  relationship: string;
+  teachingMethods: string[];
+  understandingFeedback: string;
+  additionalRemarks: string;
+  educatorName: string;
+  educatorDesignation?: string;
+  educatorSignature: string;
+  status: RecordStatus;
+  createdAt: string;
+  updatedAt?: string;
+}
+
 // Store all data
 export interface EMRStore {
   patients: Patient[];
@@ -952,6 +1034,8 @@ export interface EMRStore {
   diabeticFlowCharts: DiabeticFlowChart[];
   phlebitisAssessments: PhlebitisAssessment[];
   miniNutritionalAssessments: MiniNutritionalAssessment[];
+  patientCounsellingForms?: PatientCounsellingForm[];
+  familyEducationRecords?: FamilyEducationRecord[];
   formMaster: FormMaster[];
   fieldMaster: FieldMaster[];
   beds?: HospitalBed[];

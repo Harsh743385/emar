@@ -7,7 +7,8 @@ import {
   AlertTriangle, Stethoscope, Shield, ArrowLeftRight, ShoppingBag,
   Heart, Sun, UserCheck, Dumbbell, Pill, BarChart2, Zap, GitBranch,
   ChevronDown, ChevronRight, Settings, BookOpen, RefreshCw,
-  Users, TestTube, Wind, Building2, ShieldCheck, UserPlus, BedDouble, HeartPulse
+  Users, TestTube, Wind, Building2, ShieldCheck, UserPlus, BedDouble, HeartPulse,
+  HeartHandshake, GraduationCap, CheckSquare
 } from 'lucide-react';
 import type { Patient } from '@/lib/types';
 
@@ -59,6 +60,8 @@ const NAV_GROUPS: NavGroup[] = [
     children: [
       { id: 'nursing-notes', label: 'Progress Notes', icon: <FileText size={14} /> },
       { id: 'care-plan', label: 'Nursing Care Plan', icon: <Heart size={14} /> },
+      { id: 'counselling-form', label: 'Patient & Family Counselling', icon: <HeartHandshake size={14} /> },
+      { id: 'family-education', label: 'Family Education', icon: <GraduationCap size={14} /> },
       { id: 'mar', label: 'Medication Admin (MAR)', icon: <Pill size={14} /> },
     ],
   },
@@ -112,6 +115,17 @@ const NAV_GROUPS: NavGroup[] = [
     ],
   },
   {
+    id: 'compliance-group',
+    label: 'NABH Accreditation & Quality',
+    icon: <ShieldCheck size={16} className="text-teal-400" />,
+    children: [
+      { id: 'nabh-compliance', label: 'NABH Standards & EMR Mapping', icon: <ShieldCheck size={14} /> },
+      { id: 'nabh-kpi', label: '49 Quality Indicators (KPI)', icon: <BarChart2 size={14} /> },
+      { id: 'nabh-test-cases', label: 'Workflow Tests (17)', icon: <CheckSquare size={14} /> },
+      { id: 'nabh-gaps', label: 'Compliance Gaps & CAPA', icon: <AlertTriangle size={14} /> },
+    ],
+  },
+  {
     id: 'admin-group',
     label: 'Administration',
     icon: <Settings size={16} />,
@@ -123,7 +137,10 @@ const NAV_GROUPS: NavGroup[] = [
 ];
 
 // Admin tabs don't require patient
-const ADMIN_TABS = ['home', 'dashboard', 'patients', 'staff-admin', 'icu', 'ccu', 'ventilators', 'form-master', 'field-master'];
+const ADMIN_TABS = [
+  'home', 'dashboard', 'patients', 'staff-admin', 'icu', 'ccu', 'ventilators',
+  'form-master', 'field-master', 'nabh-compliance', 'nabh-kpi', 'nabh-test-cases', 'nabh-gaps'
+];
 
 interface SidebarNavProps {
   activeTab: string;

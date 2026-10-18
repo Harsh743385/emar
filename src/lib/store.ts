@@ -32,6 +32,12 @@ export function getStore(): EMRStore {
       clinicalScores: (parsed.clinicalScores && parsed.clinicalScores.length > 0) ? parsed.clinicalScores : SEED_DATA.clinicalScores,
       icuCharts: (parsed.icuCharts || []).filter(c => !c.id.startsWith('ICU-24H-')),
       patients: (parsed.patients && parsed.patients.length >= 8) ? parsed.patients : SEED_DATA.patients,
+      patientCounsellingForms: (parsed.patientCounsellingForms && parsed.patientCounsellingForms.length > 0)
+        ? parsed.patientCounsellingForms
+        : SEED_DATA.patientCounsellingForms || [],
+      familyEducationRecords: (parsed.familyEducationRecords && parsed.familyEducationRecords.length > 0)
+        ? parsed.familyEducationRecords
+        : SEED_DATA.familyEducationRecords || [],
     };
   } catch {
     return SEED_DATA;

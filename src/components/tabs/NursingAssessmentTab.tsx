@@ -49,17 +49,6 @@ const PAIN_EXPRESSIONS = [
   'Restless / Moaning',
 ];
 
-// ---- Patient Counseling Topics ----
-const COUNSELING_TOPICS = [
-  'Disease Condition & Diagnosis Explained',
-  'Treatment Plan & Procedures Explained',
-  'Medication Regimen & Side Effects Counseled',
-  'Dietary & Fluid Restrictions Explained',
-  'Fall Prevention & Bed Rail Safety Counseled',
-  'Hand Hygiene & Infection Control',
-  'Patient & Attendant Rights & Responsibilities',
-  'Emergency Call Bell & Nursing Assistance Use',
-];
 
 // ---- Fall Risk Criteria (Morse Fall Scale) ----
 const FALL_RISK_CRITERIA: { label: string; score: number }[] = [
@@ -976,71 +965,6 @@ function AssessmentForm({ form, setF, type, priorAssessment }: {
         </FormGroup>
       </div>
 
-      {/* Patient Counseling — Only for Initial */}
-      {isInitial && (
-        <>
-          <SectionTitle>Patient & Family Counseling</SectionTitle>
-          <div className="p-3 bg-slate-50 rounded-xl border border-slate-200 space-y-3">
-            <div>
-              <label className="block text-xs font-semibold text-slate-700 mb-1.5">Topics Counseled</label>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-1.5">
-                {COUNSELING_TOPICS.map(topic => {
-                  const isChecked = (form.patientCounselingTopics || []).includes(topic);
-                  return (
-                    <label
-                      key={topic}
-                      className={cn(
-                        "flex items-center gap-2 px-2.5 py-1.5 rounded-lg border text-xs cursor-pointer transition-colors",
-                        isChecked ? "bg-teal-50 border-teal-300 text-teal-800 font-medium" : "border-slate-200 text-slate-600 bg-white"
-                      )}
-                    >
-                      <input
-                        type="checkbox"
-                        checked={isChecked}
-                        onChange={() => {
-                          const current = form.patientCounselingTopics || [];
-                          const next = current.includes(topic) ? current.filter(t => t !== topic) : [...current, topic];
-                          setF('patientCounselingTopics', next);
-                        }}
-                        className="w-3.5 h-3.5 accent-teal-600 rounded"
-                      />
-                      <span>{topic}</span>
-                    </label>
-                  );
-                })}
-              </div>
-            </div>
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-              <FormGroup label="Counseled By">
-                <FormInput value={form.counseledBy || ''} onChange={v => setF('counseledBy', v)} placeholder="Nurse / Staff name" />
-              </FormGroup>
-              <FormGroup label="Counseled To">
-                <FormSelect
-                  value={form.counseledTo || 'Patient'}
-                  onChange={v => setF('counseledTo', v)}
-                  options={['Patient', 'Attendant / Relative', 'Spouse', 'Parent', 'Guardian', 'Both Patient & Family']}
-                />
-              </FormGroup>
-              <div className="flex flex-col justify-end">
-                <label className="block text-xs font-semibold text-slate-700 mb-1">Understanding Confirmed?</label>
-                <div className="flex items-center gap-2 h-10">
-                  <YesNoToggle value={form.counselingUnderstood ?? true} onChange={v => setF('counselingUnderstood', v)} />
-                  <span className="text-xs text-slate-600">{form.counselingUnderstood ? 'Understood' : 'Needs Re-counseling'}</span>
-                </div>
-              </div>
-            </div>
-            <FormGroup label="Counseling Remarks">
-              <FormTextarea
-                value={form.counselingNotes || ''}
-                onChange={v => setF('counselingNotes', v)}
-                placeholder="Doubts clarified, restrictions explained..."
-                rows={2}
-              />
-            </FormGroup>
-          </div>
-        </>
-      )}
-
       {/* Initial Mental Health Assessment — Only for Initial */}
       {isInitial && (
         <>
@@ -1413,21 +1337,6 @@ function RecordView({ record, onBack, onEdit, type }: {
           </div>
         </div>
 
-        {/* Initial Assessment Specific sections */}
-        {isInitial && record.patientCounselingTopics && record.patientCounselingTopics.length > 0 && (
-          <div>
-            <div className="text-xs font-bold uppercase text-slate-400 mb-1">Patient & Family Counseling</div>
-            <div className="text-xs text-slate-700 space-y-1">
-              <div className="flex gap-2 flex-wrap">
-                {record.patientCounselingTopics.map(t => (
-                  <span key={t} className="px-2 py-0.5 bg-teal-50 text-teal-800 rounded-md border border-teal-200">✓ {t}</span>
-                ))}
-              </div>
-              <p className="text-slate-500 mt-1">Counseled to: <b>{record.counseledTo || 'Patient'}</b> by <b>{record.counseledBy || 'Nurse'}</b> · Understanding: {record.counselingUnderstood ? 'Confirmed' : 'Needs Follow-up'}</p>
-              {record.counselingNotes && <p className="italic text-slate-600">{record.counselingNotes}</p>}
-            </div>
-          </div>
-        )}
 
         {isInitial && record.mentalAppearanceBehavior && (
           <div>

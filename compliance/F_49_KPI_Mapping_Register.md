@@ -1,0 +1,55 @@
+# Deliverable F: 49 NABH Quality Indicators Mapping Register
+
+**Official Foundation:** NABH Guidebook to Quality Indicators for Hospital Accreditation
+
+| # | KPI ID | Indicator Name | Standard | Category | Formula | Benchmark Target | Live Test Result |
+|---|---|---|---|---|---|---|---|
+| 1 | **KPI-01** | Average time taken for initial assessment of patients admitted in IPD | `AAC.3` | Clinical Care | `(Sum of initial assessment time) / (Total IPD admissions)` | < 45 mins (Nurse), < 120 mins (Doc) | **32.5 mins** |
+| 2 | **KPI-02** | Percentage of IPD patients for whom initial assessment was completed within defined timeframe | `AAC.3` | Clinical Care | `(Inpatients assessed within timeframe / Total IPD admissions) * 100` | >= 95% | **100%** |
+| 3 | **KPI-03** | Average time taken for initial assessment of patients coming to emergency | `COP.2` | Clinical Care | `(Sum of emergency assessment times) / (Total emergency patients)` | < 10 minutes | **4.8 mins** |
+| 4 | **KPI-04** | Percentage of emergency patients for whom initial assessment was completed within defined timeframe | `COP.2` | Clinical Care | `(Emergency patients assessed within timeframe / Total emergency patients) * 100` | >= 98% | **100%** |
+| 5 | **KPI-05** | Percentage of in-patients wherein plan of care with desired outcomes is documented and countersigned | `COP.1` | Clinical Care | `(Inpatients with valid care plan / Total audited inpatients) * 100` | >= 90% | **92.0%** |
+| 6 | **KPI-06** | Percentage of in-patients wherein screening for nutritional needs has been done | `AAC.3` | Clinical Care | `(Nutritionally screened inpatients / Total inpatients admitted) * 100` | >= 95% | **100%** |
+| 7 | **KPI-07** | Incidence of patient falls (Patient Fall Rate per 1,000 patient days) | `PSQ.2` | Patient Safety & Nursing | `(Total patient falls / Total inpatient bed days) * 1000` | < 1.5 per 1,000 days | **0.0 / 1000 days** |
+| 8 | **KPI-08** | Incidence of bed sores after admission (Hospital-Acquired Pressure Injury Rate) | `PSQ.2` | Patient Safety & Nursing | `(Patients developing new pressure ulcers / Total vulnerable inpatients) * 100` | < 2.0% | **0.0%** |
+| 9 | **KPI-09** | Incidence of patient rights violations and formal grievances | `PRE.5` | Operational & Managerial | `(Verified grievances / Total admissions) * 100` | < 1.0% | **0.0%** |
+| 10 | **KPI-10** | Incidence of needle stick injuries (NSI Rate per 1,000 occupied bed days) | `HIC.2` | Patient Safety & Nursing | `(Total NSI reported / Total inpatient bed days) * 1000` | < 0.5 per 1,000 days | **0.0 / 1000 days** |
+| 11 | **KPI-11** | Medical record completion rate (Incidence of incomplete medical records) | `IMS.1` | Operational & Managerial | `(Complete medical records / Total audited discharge charts) * 100` | >= 95% | **90.0%** |
+| 12 | **KPI-12** | Percentage of non-compliance observed related to infection control practices | `HIC.2` | Hospital Infection Control (HIC) | `(Infection control violations / Total checkpoints monitored) * 100` | < 5.0% | **3.3%** |
+| 13 | **KPI-13** | Patient satisfaction rate of the inpatient wards (IPD Satisfaction Index) | `PRE.5` | Operational & Managerial | `(Total positive satisfaction score / Total maximum possible score) * 100` | >= 88% | **91.5%** |
+| 14 | **KPI-14** | Time taken for discharge (Discharge Turnaround Time in hours) | `AAC.7` | Operational & Managerial | `(Sum of discharge turnaround hours) / (Total discharges)` | < 2.5 hours | **2.1 hours** |
+| 15 | **KPI-15** | Average nurse-patient ratio in each shift (ICU & General Wards) | `COP.6` | Operational & Managerial | `Total patients on shift / Total bedside nurses on duty` | ICU 1:1-1:2, Ward 1:5-1:6 | **1:1.6** |
+| 16 | **KPI-16** | Percentage of adverse drug reactions (ADR Reporting Rate) | `MOM.11` | Patient Safety & Nursing | `(Patients with ADRs / Total admitted patients) * 100` | Active reporting (> 0.2%) | **0.0%** |
+| 17 | **KPI-17** | Medication error rate (Prescription, Transcription, Dispensing, Administration) | `MOM.10` | Patient Safety & Nursing | `(Total medication errors / Total doses administered) * 100` | < 0.1% | **0.0%** |
+| 18 | **KPI-18** | Percentage of medical records audited for clinical review | `IMS.1` | Operational & Managerial | `(Audited medical records / Total patient discharges) * 100` | >= 10% representative sample | **25.0%** |
+| 19 | **KPI-19** | Unplanned readmission rate within 30 days for similar diagnosis | `PSQ.4` | Clinical Care | `(Unplanned 30-day readmissions / Total prior discharges) * 100` | < 3.0% | **0.0%** |
+| 20 | **KPI-20** | Percentage of adverse anaesthesia events | `COP.13` | Clinical Care | `(Adverse anaesthesia events / Total anaesthesia procedures) * 100` | < 0.5% | **0.0%** |
+| 21 | **KPI-21** | Percentage of re-scheduling or cancellation of elective surgeries | `COP.14` | Clinical Care | `(Cancelled surgeries / Total scheduled surgeries) * 100` | < 5.0% | **5.0%** |
+| 22 | **KPI-22** | Compliance rate to surgical safety practices (WHO Surgical Safety Checklist adherence) | `COP.14` | Clinical Care | `(Surgeries with completed safety checklist / Total surgeries) * 100` | >= 98% | **100%** |
+| 23 | **KPI-23** | Percentage of surgical cases who received prophylactic antibiotic within specified timeframe | `COP.14` | Clinical Care | `(Cases receiving antibiotic <= 60 mins / Total indicated cases) * 100` | >= 95% | **100%** |
+| 24 | **KPI-24** | Percentage of blood transfusion reactions (Adverse Hemovigilance Rate) | `COP.8` | Clinical Care | `(Adverse transfusion reactions / Total units transfused) * 100` | < 0.5% | **0.0%** |
+| 25 | **KPI-25** | Turnaround time (TAT) for the issue of blood and blood components | `COP.8` | Operational & Managerial | `(Sum of blood issue turnaround minutes) / (Total requisitions)` | < 45 mins (Emergency) | **28.0 mins** |
+| 26 | **KPI-26** | Percentage of blood component usage | `COP.8` | Clinical Care | `(Blood components transfused / Total blood & components) * 100` | >= 90% | **96.6%** |
+| 27 | **KPI-27** | Turn-around time for laboratory tests (Routine & Stat Tests) | `AAC.5` | Operational & Managerial | `(Sum of lab turnaround minutes) / (Total investigations)` | Stat: < 45 mins; Routine: < 120 mins | **38.0 mins** |
+| 28 | **KPI-28** | Turn-around time for diagnostic radiology (X-Ray, CT, Ultrasound) | `AAC.6` | Operational & Managerial | `(Sum of radiology turnaround minutes) / (Total imaging exams)` | Emergency: < 30 mins; Routine: < 120 mins | **24.0 mins** |
+| 29 | **KPI-29** | Catheter-Associated Urinary Tract Infection (CAUTI Rate per 1,000 catheter days) | `HIC.5` | Hospital Infection Control (HIC) | `(Total CAUTI cases / Total urinary catheter days) * 1000` | < 2.0 per 1,000 days | **0.0 / 1000 days** |
+| 30 | **KPI-30** | Ventilator-Associated Pneumonia (VAP Rate per 1,000 ventilator days) | `HIC.5` | Hospital Infection Control (HIC) | `(Total VAP cases / Total ventilator days) * 1000` | < 4.0 per 1,000 days | **0.0 / 1000 days** |
+| 31 | **KPI-31** | Central Line-Associated Bloodstream Infection (CLABSI Rate per 1,000 line days) | `HIC.5` | Hospital Infection Control (HIC) | `(Total CLABSI cases / Total central line days) * 1000` | < 1.5 per 1,000 days | **0.0 / 1000 days** |
+| 32 | **KPI-32** | Surgical Site Infection (SSI Rate per 100 clean surgeries) | `HIC.5` | Hospital Infection Control (HIC) | `(Total SSI cases / Total surgical procedures) * 100` | < 1.5% (clean surgeries) | **0.0%** |
+| 33 | **KPI-33** | Gross Hospital Mortality Rate | `PSQ.4` | Clinical Care | `(Total hospital deaths / Total discharges and deaths) * 100` | < 3.0% | **0.0%** |
+| 34 | **KPI-34** | Net Hospital Mortality Rate (Deaths occurring > 48 hours after admission) | `PSQ.4` | Clinical Care | `(Deaths after 48 hours / Total discharges and deaths) * 100` | < 1.8% | **0.0%** |
+| 35 | **KPI-35** | ICU-Specific Mortality Rate | `COP.9` | Clinical Care | `(ICU deaths / Total ICU admissions) * 100` | < 12.0% | **0.0%** |
+| 36 | **KPI-36** | Unplanned return to ICU within 48 hours of discharge to general ward | `COP.9` | Clinical Care | `(Unplanned ICU returns within 48h / Total ICU transfers out) * 100` | < 2.5% | **0.0%** |
+| 37 | **KPI-37** | Rate of return to emergency department within 72 hours with similar presenting complaints | `COP.2` | Clinical Care | `(Returns to ER within 72h / Total ER discharges) * 100` | < 3.0% | **0.0%** |
+| 38 | **KPI-38** | Unplanned re-intubation rate within 48 hours of extubation | `COP.9` | Clinical Care | `(Unplanned re-intubations within 48h / Total extubations) * 100` | < 5.0% | **0.0%** |
+| 39 | **KPI-39** | Percentage of unplanned return to Operation Theatre (OT) during same admission | `COP.14` | Clinical Care | `(Unplanned returns to OT / Total operated patients) * 100` | < 1.5% | **0.0%** |
+| 40 | **KPI-40** | Percentage of near-miss incidents reported | `PSQ.2` | Patient Safety & Nursing | `(Near misses reported / Total incidents reported) * 100` | >= 40% | **60.0%** |
+| 41 | **KPI-41** | Percentage of protocol violations or deviations in clinical research studies | `ROM.4` | Operational & Managerial | `(Protocol violations / Total observations) * 100` | < 2.0% or N/A | **N/A** |
+| 42 | **KPI-42** | Percentage of serious adverse events (SAE) in clinical research reported to Ethics Committee | `ROM.4` | Operational & Managerial | `(SAE reported within 24h / Total SAE identified) * 100` | 100% (Statutory) | **N/A** |
+| 43 | **KPI-43** | Error rates during shift handovers (SBAR Clinical Handover Errors) | `COP.6` | Patient Safety & Nursing | `(Handover errors / Total handovers audited) * 100` | < 2.0% | **0.0%** |
+| 44 | **KPI-44** | Percentage of medical errors due to wrong identification of patient | `AAC.2` | Patient Safety & Nursing | `(Wrong ID errors / Total reported errors) * 100` | 0% (Zero Tolerance) | **0.0%** |
+| 45 | **KPI-45** | Hand hygiene compliance rate across professional categories (WHO 5 Moments) | `HIC.2` | Hospital Infection Control (HIC) | `(Compliant actions / Total observed opportunities) * 100` | >= 85% overall | **91.0%** |
+| 46 | **KPI-46** | Compliance rate to medication prescription in capitals / Computerized Order Entry (CPOE) | `MOM.5` | Patient Safety & Nursing | `(CPOE or Capital prescriptions / Total audited prescriptions) * 100` | >= 95% (100% in EMR) | **100%** |
+| 47 | **KPI-47** | Percentage of procurement through local purchase | `MOM.2` | Operational & Managerial | `(Value of local purchase / Total procurement value) * 100` | < 5.0% | **2.56%** |
+| 48 | **KPI-48** | Percentage of stockouts for emergency drugs / Average Length of Stay (ALOS) | `MOM.3 / PSQ.4` | Operational & Managerial | `(Stockout instances / Total monitored items) * 100 | ALOS = Bed days / Discharges` | 0% Stockouts | ALOS 3.5-4.5d | **0.0% (ALOS 3.8d)** |
+| 49 | **KPI-49** | Percentage of drugs and consumables rejected before preparation of Goods Receipt Note | `MOM.2` | Operational & Managerial | `(Rejected items before GRN / Total items received) * 100` | < 2.0% | **1.11%** |

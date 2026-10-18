@@ -90,7 +90,7 @@ const NAV_GROUPS: NavGroup[] = [
     icon: <ArrowLeftRight size={16} />,
     children: [
       { id: 'shift-handover', label: 'Shift Handover', icon: <ArrowLeftRight size={14} /> },
-      { id: 'rmo-handover', label: 'RMO Handover', icon: <UserCheck size={14} /> },
+      { id: 'rmo-handover', label: 'Doctor Assessment (RMO)', icon: <UserCheck size={14} /> },
     ],
   },
   {

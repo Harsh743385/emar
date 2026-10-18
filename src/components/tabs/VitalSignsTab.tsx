@@ -11,11 +11,31 @@ import {
 import { Plus, Activity } from 'lucide-react';
 import type { VitalSigns, Shift } from '@/lib/types';
 import { formatDate } from '@/lib/utils';
+import { cn } from '@/lib/utils';
+
+const ACTION_TAKEN_OPTIONS = [
+  '',
+  'Analgesic Administered as Prescribed',
+  'Repositioned / Position Changed',
+  'Ice / Cold Compress Applied',
+  'Warm Compress Applied',
+  'Treating Doctor / Consultant Informed',
+  'Non-Pharmacological Comfort / Breathing',
+  'Vital Signs Monitored & Rechecked',
+  'Dressing / Wound Care Checked',
+  'Splint / Support Provided',
+  'Reassessed after 30 Minutes',
+  'Other (Specify in notes)',
+];
 
 export function VitalSignsTab() {
   const { store, selectedPatient, updateStore } = useEMR();
   const [drawerOpen, setDrawerOpen] = useState(false);
-  const [form, setForm] = useState({ date: nowDateStr(), time: nowTimeStr(), shift: 'Morning' as Shift, nurseName: '', tempF: 98.6, pulse: 72, bpSys: 120, bpDia: 80, spo2: 98, rr: 16, weightKg: 0 });
+  const [form, setForm] = useState({
+    date: nowDateStr(), time: nowTimeStr(), shift: 'Morning' as Shift, nurseName: '',
+    tempF: 98.6, pulse: 72, bpSys: 120, bpDia: 80, spo2: 98, rr: 16, weightKg: 0,
+    painScore: 0, painIntensity: '', painLocation: '', painActionTaken: ''
+  });
   const [editId, setEditId] = useState<string | null>(null);
   const [activeDate, setActiveDate] = useState(nowDateStr());
 
@@ -31,7 +51,15 @@ export function VitalSignsTab() {
 
   function setF(k: string, v: number | string) { setForm(prev => ({ ...prev, [k]: v })); }
 
-  function openNew() { setForm({ date: nowDateStr(), time: nowTimeStr(), shift: getShiftFromTime(nowTimeStr()), nurseName: '', tempF: 98.6, pulse: 72, bpSys: 120, bpDia: 80, spo2: 98, rr: 16, weightKg: 0 }); setEditId(null); setDrawerOpen(true); }
+  function openNew() {
+    setForm({
+      date: nowDateStr(), time: nowTimeStr(), shift: getShiftFromTime(nowTimeStr()), nurseName: '',
+      tempF: 98.6, pulse: 72, bpSys: 120, bpDia: 80, spo2: 98, rr: 16, weightKg: 0,
+      painScore: 0, painIntensity: '', painLocation: '', painActionTaken: ''
+    });
+    setEditId(null);
+    setDrawerOpen(true);
+  }
 
   function save(status: 'Completed' | 'Draft') {
     updateStore(prev => {
@@ -72,7 +100,7 @@ export function VitalSignsTab() {
                   <tr>
                     <th>Time</th><th>Shift</th><th>Temp (°F)</th><th>Pulse (bpm)</th>
                     <th>BP (mmHg)</th><th>SpO₂ (%)</th><th>RR (/min)</th><th>Wt (kg)</th>
-                    <th>Nurse</th><th>Status</th><th>Action</th>
+                    <th>Pain (0-10)</th><th>Action Taken</th><th>Nurse</th><th>Status</th><th>Action</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -86,10 +114,35 @@ export function VitalSignsTab() {
                       <td className={r.spo2 < 95 ? 'high' : ''}>{r.spo2}</td>
                       <td className={r.rr > 20 ? 'high' : ''}>{r.rr}</td>
                       <td>{r.weightKg || '—'}</td>
+                      <td>
+                        {(r.painScore ?? 0) > 0 ? (
+                          <span className={cn("text-xs font-bold px-2 py-0.5 rounded",
+                            (r.painScore ?? 0) >= 7 ? "bg-red-100 text-red-700" :
+                            (r.painScore ?? 0) >= 4 ? "bg-amber-100 text-amber-700" : "bg-yellow-100 text-yellow-800"
+                          )}>
+                            {r.painScore}/10
+                          </span>
+                        ) : (
+                          <span className="text-slate-400 text-xs">0 (None)</span>
+                        )}
+                      </td>
+                      <td className="text-xs text-slate-600 max-w-[140px] truncate" title={r.painActionTaken}>{r.painActionTaken || '—'}</td>
                       <td className="text-xs text-slate-500">{r.nurseName || 'Demo'}</td>
                       <td><StatusBadge status={r.status} /></td>
                       <td>
-                        <button onClick={() => { setForm({ date: r.date, time: r.time, shift: r.shift, nurseName: r.nurseName, tempF: r.tempF, pulse: r.pulse, bpSys: r.bpSys, bpDia: r.bpDia, spo2: r.spo2, rr: r.rr, weightKg: r.weightKg }); setEditId(r.id); setDrawerOpen(true); }} className="text-xs text-teal-600 hover:underline">Edit</button>
+                        <button onClick={() => {
+                          setForm({
+                            date: r.date, time: r.time, shift: r.shift, nurseName: r.nurseName,
+                            tempF: r.tempF, pulse: r.pulse, bpSys: r.bpSys, bpDia: r.bpDia,
+                            spo2: r.spo2, rr: r.rr, weightKg: r.weightKg,
+                            painScore: r.painScore ?? 0,
+                            painIntensity: r.painIntensity || '',
+                            painLocation: r.painLocation || '',
+                            painActionTaken: r.painActionTaken || ''
+                          });
+                          setEditId(r.id);
+                          setDrawerOpen(true);
+                        }} className="text-xs text-teal-600 hover:underline font-semibold">Edit</button>
                       </td>
                     </tr>
                   ))}
@@ -114,6 +167,7 @@ export function VitalSignsTab() {
           <FormGroup label="Date" required><FormInput type="date" value={form.date} onChange={v => setF('date', v)} /></FormGroup>
           <FormGroup label="Nurse Name"><FormInput value={form.nurseName} onChange={v => setF('nurseName', v)} placeholder="Nurse name" /></FormGroup>
         </div>
+
         <SectionTitle>Vital Signs</SectionTitle>
         <div className="grid grid-cols-3 sm:grid-cols-4 gap-3">
           <FormGroup label="Temp (°F)" required><FormInput type="number" step="0.1" value={form.tempF} onChange={v => setF('tempF', parseFloat(v) || 0)} /></FormGroup>
@@ -123,6 +177,38 @@ export function VitalSignsTab() {
           <FormGroup label="SpO₂ (%)" required><FormInput type="number" value={form.spo2} onChange={v => setF('spo2', parseInt(v) || 0)} /></FormGroup>
           <FormGroup label="RR (/min)" required><FormInput type="number" value={form.rr} onChange={v => setF('rr', parseInt(v) || 0)} /></FormGroup>
           <FormGroup label="Weight (kg)"><FormInput type="number" step="0.1" value={form.weightKg} onChange={v => setF('weightKg', parseFloat(v) || 0)} /></FormGroup>
+        </div>
+
+        <SectionTitle>Pain & Nursing Interventions</SectionTitle>
+        <div className="p-3 bg-slate-50 rounded-xl border border-slate-200 space-y-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <FormGroup label="Pain Score (0 - 10)">
+              <div className="flex items-center gap-2">
+                <input
+                  type="number"
+                  min={0}
+                  max={10}
+                  value={form.painScore}
+                  onChange={e => setF('painScore', parseInt(e.target.value) || 0)}
+                  className="w-20 px-2 py-2 border border-slate-200 rounded-lg text-sm text-center font-bold focus:outline-none focus:border-teal-400"
+                />
+                <span className="text-xs text-slate-500">
+                  {form.painScore === 0 ? 'No Pain' : form.painScore <= 3 ? 'Mild' : form.painScore <= 6 ? 'Moderate' : 'Severe'}
+                </span>
+              </div>
+            </FormGroup>
+            <FormGroup label="Pain Intensity">
+              <FormSelect value={form.painIntensity} onChange={v => setF('painIntensity', v)} options={['', 'Mild', 'Moderate', 'Severe', 'Very Severe']} />
+            </FormGroup>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <FormGroup label="Pain Location">
+              <FormInput value={form.painLocation} onChange={v => setF('painLocation', v)} placeholder="e.g. Abdomen, Surgical site, Back" />
+            </FormGroup>
+            <FormGroup label="Action Taken (Dropdown)">
+              <FormSelect value={form.painActionTaken} onChange={v => setF('painActionTaken', v)} options={ACTION_TAKEN_OPTIONS} />
+            </FormGroup>
+          </div>
         </div>
       </FormDrawer>
     </div>

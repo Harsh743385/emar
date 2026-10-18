@@ -26,7 +26,7 @@ const TAB_LABELS: Record<string, string> = {
   'patient-transfer': 'Patient Transfer & SBAR',
   'valuables': 'Valuable Items Handover',
   'shift-handover': 'Shift Handover',
-  'rmo-handover': 'RMO Handover',
+  'rmo-handover': 'Doctor Assessment (RMO)',
   'physio-assessment': 'Physiotherapy Assessment',
   'physio-sessions': 'PT Session Notes',
   'med-reconciliation': 'Medication Reconciliation',

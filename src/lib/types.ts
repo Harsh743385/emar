@@ -62,6 +62,29 @@ export interface NursingAssessment {
   painIntensity?: string;
   painDuration?: string;
   painActionTaken?: string;
+  // Pain Assessment enhancements
+  painScore: number;
+  painType?: 'Acute' | 'Chronic';
+  painLocation?: string;
+  painExpressions?: string[];
+  // Patient Counseling (Initial Assessment)
+  patientCounselingTopics?: string[];
+  counseledBy?: string;
+  counseledTo?: string;
+  counselingUnderstood?: boolean;
+  counselingNotes?: string;
+  // Initial Mental Health Assessment
+  mentalAppearanceBehavior?: string;
+  mentalMoodAffect?: string;
+  mentalOrientation?: boolean;
+  mentalMemory?: string;
+  mentalSleepPattern?: string;
+  mentalSpeechThought?: string;
+  mentalSuicidalRisk?: string;
+  mentalSubstanceHistory?: string;
+  mentalNotes?: string;
+  // Past Medications History
+  pastMedications?: PastMedicationEntry[];
   // Risk Assessment — structured criteria
   fallRiskCriteria?: string[];   // Selected Morse/STRATIFY criteria labels
   fallRiskScore: number;
@@ -72,8 +95,15 @@ export interface NursingAssessment {
   dvtRiskCriteria?: string[];
   dvtRiskScore?: number;
   dvtRisk?: string;
-  painScore: number;
-  // Nutritional Assessment (MNA-SF embedded)
+  // Previous Risk tracking in Reassessment
+  previousFallRiskScore?: number;
+  previousFallRiskLevel?: string;
+  previousPressureUlcerRisk?: string;
+  previousPressureUlcerScore?: number;
+  previousDVTRisk?: string;
+  previousDVTScore?: number;
+  previousRiskAssessedDate?: string;
+  // Nutritional Assessment (MNA-SF embedded — Initial only)
   mnaFoodIntakeDecline?: 0 | 1 | 2;
   mnaWeightLoss?: 0 | 1 | 2 | 3;
   mnaMobility?: 0 | 1 | 2;
@@ -95,6 +125,16 @@ export interface NursingAssessment {
   createdAt: string;
 }
 
+export interface PastMedicationEntry {
+  id: string;
+  medicineName: string;
+  dosage: string;
+  frequency: string;
+  route: string;
+  duration: string;
+  indication: string;
+}
+
 export interface VitalSigns {
   id: string;
   patientId: string;
@@ -109,6 +149,10 @@ export interface VitalSigns {
   spo2: number;
   rr: number;
   weightKg: number;
+  painScore?: number;
+  painIntensity?: string;
+  painLocation?: string;
+  painActionTaken?: string;
   status: RecordStatus;
   createdAt: string;
 }
@@ -417,6 +461,12 @@ export interface RMOHandover {
   pendingTasks: string;
   handoverNotes: string;
   acknowledgement: string;
+  // Doctor assessment additions & auto-filled nurse vitals/pain
+  assessmentType?: 'Doctor Assessment' | 'RMO Handover' | 'Doctor Round Note';
+  doctorName?: string;
+  nurseVitalsSummary?: string;
+  nursePainRecord?: string;
+  latestPainScore?: number;
   status: RecordStatus;
   createdAt: string;
 }
@@ -499,6 +549,15 @@ export interface MedicationReconciliation {
   outgoingNurse: string;
   incomingNurse: string;
   medications: MedReconciliationEntry[];
+  // Reconciliation Type: Transfer, Discharge, or Shift Count
+  reconciliationType?: 'Shift Count' | 'Transfer' | 'Discharge' | 'Admission';
+  transferFrom?: string;
+  transferTo?: string;
+  doctorOrderVerified?: boolean;
+  transferRecalculatedBy?: string;
+  dischargeSummaryVerified?: boolean;
+  counseledToPatient?: boolean;
+  consultantName?: string;
   status: RecordStatus;
   createdAt: string;
 }
@@ -511,6 +570,14 @@ export interface MedReconciliationEntry {
   quantityAdministered: number;
   remainingQuantity: number;
   discrepancyRemarks?: string;
+  // Transfer & Discharge additions
+  dosage?: string;
+  frequency?: string;
+  route?: string;
+  actionDecision?: 'Continue' | 'Continue at Home' | 'Stop / Discontinue' | 'Discontinued / Stopped' | 'Dose Changed' | 'Dose Modified' | 'New Order Added' | 'Modified';
+  source?: 'Inpatient Medication' | 'Home Medication' | 'Discharge Rx';
+  dischargeInstructions?: string;
+  daysPrescribed?: string;
 }
 // Alias for components that import under the longer name
 export type MedicationReconciliationEntry = MedReconciliationEntry;

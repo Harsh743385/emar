@@ -96,15 +96,16 @@ export function FormDrawer({
 
 // Reusable form field components
 export function FormGroup({
-  label, required, children, className
+  label, required, hint, children, className
 }: {
-  label: string; required?: boolean; children: React.ReactNode; className?: string;
+  label: string; required?: boolean; hint?: string; children: React.ReactNode; className?: string;
 }) {
   return (
     <div className={className}>
       <label className="block text-xs font-semibold text-slate-600 mb-1.5 uppercase tracking-wide">
         {label} {required && <span className="text-red-500">*</span>}
       </label>
+      {hint && <p className="text-[11px] text-slate-400 -mt-0.5 mb-1">{hint}</p>}
       {children}
     </div>
   );
@@ -252,10 +253,13 @@ export function EmptyState({ icon, title, description, action }: {
   );
 }
 
-export function CardHeader({ title, actions }: { title: string; actions?: React.ReactNode }) {
+export function CardHeader({ title, subtitle, actions }: { title: string; subtitle?: React.ReactNode; actions?: React.ReactNode }) {
   return (
     <div className="ncard-head">
-      <h4 className="text-sm font-bold text-slate-800">{title}</h4>
+      <div>
+        <h4 className="text-sm font-bold text-slate-800">{title}</h4>
+        {subtitle && <p className="text-xs text-slate-500 mt-0.5">{subtitle}</p>}
+      </div>
       {actions && <div className="flex items-center gap-2">{actions}</div>}
     </div>
   );

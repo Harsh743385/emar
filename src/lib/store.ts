@@ -38,6 +38,37 @@ export function getStore(): EMRStore {
       familyEducationRecords: (parsed.familyEducationRecords && parsed.familyEducationRecords.length > 0)
         ? parsed.familyEducationRecords
         : SEED_DATA.familyEducationRecords || [],
+      dynamicFormSubmissions: (parsed.dynamicFormSubmissions && parsed.dynamicFormSubmissions.length > 0)
+        ? parsed.dynamicFormSubmissions
+        : SEED_DATA.dynamicFormSubmissions || [],
+      formMaster: (() => {
+        const parsedForms = parsed.formMaster || [];
+        const existingIds = new Set(parsedForms.map(f => f.id));
+        return [
+          ...parsedForms.map(f => {
+            const seed = SEED_DATA.formMaster.find(sf => sf.id === f.id);
+            if (seed && !f.managementSequence) {
+              return { ...seed, ...f, managementSequence: seed.managementSequence };
+            }
+            return f;
+          }),
+          ...SEED_DATA.formMaster.filter(sf => !existingIds.has(sf.id)),
+        ];
+      })(),
+      fieldMaster: (() => {
+        const parsedFields = parsed.fieldMaster || [];
+        const existingIds = new Set(parsedFields.map(f => f.id));
+        return [
+          ...parsedFields.map(f => {
+            const seed = SEED_DATA.fieldMaster.find(sf => sf.id === f.id);
+            if (seed && !f.managementSequence) {
+              return { ...seed, ...f, managementSequence: seed.managementSequence };
+            }
+            return f;
+          }),
+          ...SEED_DATA.fieldMaster.filter(sf => !existingIds.has(sf.id)),
+        ];
+      })(),
     };
   } catch {
     return SEED_DATA;

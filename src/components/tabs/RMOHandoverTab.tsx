@@ -13,7 +13,7 @@ import { cn } from '@/lib/utils';
 import type { RMOHandover } from '@/lib/types';
 
 export function RMOHandoverTab() {
-  const { store, selectedPatient, updateStore } = useEMR();
+  const { store, selectedPatient, updateStore, updatePatientDiagnosis } = useEMR();
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [editId, setEditId] = useState<string | null>(null);
 
@@ -51,6 +51,7 @@ export function RMOHandoverTab() {
     date: nowDateStr(), time: nowTimeStr(),
     fromConsultant: selectedPatient?.consultantDoctor || '',
     toConsultant: '',
+    doctorDiagnosis: selectedPatient?.diagnosis || '',
     patientCondition: '',
     clinicalSummary: '',
     treatmentPlan: '',
@@ -75,6 +76,7 @@ export function RMOHandoverTab() {
       date: nowDateStr(), time: nowTimeStr(),
       fromConsultant: selectedPatient?.consultantDoctor || '',
       toConsultant: 'Dr. On Duty / RMO',
+      doctorDiagnosis: selectedPatient?.diagnosis || '',
       patientCondition: latestPainScore >= 5 ? `Moderate-Severe Pain (${latestPainScore}/10), Vitals noted` : 'Stable, vitals reviewed',
       clinicalSummary: autoWrittenClinical,
       treatmentPlan: latestPainScore >= 4 ? `1. Continue analgesia as prescribed\n2. Monitor vitals and re-evaluate pain in 2 hours` : '1. Continue current treatment plan\n2. Monitor vitals',
@@ -104,6 +106,9 @@ export function RMOHandoverTab() {
   }
 
   function save(status: 'Completed' | 'Draft') {
+    if (form.doctorDiagnosis && form.doctorDiagnosis.trim()) {
+      updatePatientDiagnosis(patientId, form.doctorDiagnosis.trim());
+    }
     updateStore(prev => {
       const rec = { ...form, status };
       if (editId) return { ...prev, rmoHandovers: prev.rmoHandovers.map(r => r.id === editId ? { ...r, ...rec } : r) };
@@ -236,12 +241,18 @@ export function RMOHandoverTab() {
                       <p className="text-xs text-amber-800 mt-1 bg-amber-50 px-2 py-0.5 rounded inline-block font-medium">
                         Patient Condition: {r.patientCondition}
                       </p>
+                      {(r.doctorDiagnosis || selectedPatient?.diagnosis) && (
+                        <p className="text-xs text-blue-800 mt-1 bg-blue-50 px-2 py-0.5 rounded inline-block font-semibold border border-blue-100">
+                          🩺 Dx: {r.doctorDiagnosis || selectedPatient?.diagnosis}
+                        </p>
+                      )}
                     </div>
                     <SoftButton onClick={() => {
                       setForm({
                         date: r.date, time: r.time,
                         fromConsultant: r.fromConsultant,
                         toConsultant: r.toConsultant,
+                        doctorDiagnosis: r.doctorDiagnosis || selectedPatient?.diagnosis || '',
                         patientCondition: r.patientCondition,
                         clinicalSummary: r.clinicalSummary,
                         treatmentPlan: r.treatmentPlan,
@@ -339,6 +350,25 @@ export function RMOHandoverTab() {
             <p><b>Vitals:</b> {vitalsSummaryText}</p>
             <p><b>Pain Status:</b> <span className={latestPainScore >= 4 ? "text-amber-800 font-semibold" : "text-slate-700"}>{painSummaryText}</span></p>
           </div>
+        </div>
+
+        {/* Doctor's Official Diagnosis (Writes Once -> Reflects Everywhere) */}
+        <div className="p-3.5 bg-blue-50/80 border border-blue-200 rounded-xl mb-4">
+          <div className="flex items-center justify-between mb-1.5 flex-wrap gap-1">
+            <span className="text-xs font-bold text-blue-900 uppercase tracking-wide">
+              🩺 Official Doctor Diagnosis (Reflects Across All Tabs)
+            </span>
+            <span className="text-[11px] text-blue-700 bg-blue-100/70 px-2 py-0.5 rounded font-medium">
+              Writes once → reflects across whole EMR
+            </span>
+          </div>
+          <input
+            type="text"
+            value={form.doctorDiagnosis}
+            onChange={e => setF('doctorDiagnosis', e.target.value)}
+            placeholder="Enter confirmed / provisional doctor's diagnosis..."
+            className="w-full px-3 py-2 text-xs border border-blue-300 rounded-lg bg-white text-slate-800 font-medium focus:outline-none focus:ring-2 focus:ring-blue-400"
+          />
         </div>
 
         <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mb-3">

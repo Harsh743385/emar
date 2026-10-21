@@ -29,6 +29,20 @@ export interface Patient {
   emergencyContact: string;
   emergencyContactName: string;
   status: 'Active' | 'Discharged';
+  isVulnerable?: boolean;
+  vulnerableCriteria?: string[];
+}
+
+// Shift Pain Reassessment Log (multiple times per single shift)
+export interface ShiftPainLog {
+  id: string;
+  time: string;
+  painScore: number;
+  painLocation?: string;
+  actionTaken?: string;
+  actionTakenFreeText?: string;
+  reliefStatus?: string;
+  nurseName: string;
 }
 
 export interface NursingAssessment {
@@ -57,16 +71,20 @@ export interface NursingAssessment {
   spo2: number;
   rr: number;
   weightKg: number;
+  bloodSugarMgDl?: number;
   // Chief complaints with intensity/duration/action
   chiefComplaints: string;
   painIntensity?: string;
   painDuration?: string;
   painActionTaken?: string;
+  painActionTakenFreeText?: string;
+  painReliefStatus?: string;
   // Pain Assessment enhancements
   painScore: number;
   painType?: 'Acute' | 'Chronic';
   painLocation?: string;
   painExpressions?: string[];
+  shiftPainLogs?: ShiftPainLog[];
   // Patient Counseling (Initial Assessment)
   patientCounselingTopics?: string[];
   counseledBy?: string;
@@ -103,6 +121,42 @@ export interface NursingAssessment {
   previousDVTRisk?: string;
   previousDVTScore?: number;
   previousRiskAssessedDate?: string;
+  // Vulnerable Patient Criteria & Care (NABH Standard)
+  vulnerableCriteria?: string[];
+  isVulnerableHighRisk?: boolean;
+  vulnerableInterventions?: string[];
+  vulnerableNotes?: string;
+  // ADL (Activities of Daily Living) Assessment
+  adlBathing?: number;
+  adlDressing?: number;
+  adlToileting?: number;
+  adlTransfer?: number;
+  adlFeeding?: number;
+  adlContinence?: number;
+  adlScore?: number;
+  adlCategory?: string;
+  adlInterventions?: string[];
+  // Pressure Ulcer Integration in Reassessment & Assessment
+  puPresent?: boolean;
+  puBeforeAfter?: 'Before Admission' | 'After Admission';
+  puStage?: string;
+  puLocation?: string;
+  puLengthCm?: number;
+  puWidthCm?: number;
+  puDepthCm?: number;
+  puWoundBed?: string;
+  puExudate?: string;
+  puPreventiveMeasures?: string[];
+  puInterventions?: string;
+  // Phlebitis (VIP Score) Integration in Reassessment & Assessment
+  phlebitisAssessed?: boolean;
+  phlebitisIvSite?: string;
+  phlebitisVipScore?: number;
+  phlebitisSymptoms?: string[];
+  phlebitisInterventions?: string[];
+  phlebitisNotes?: string;
+  phlebitisInsertionDate?: string;
+  phlebitisCannulaGauge?: string;
   // Nutritional Assessment (MNA-SF embedded — Initial only)
   mnaFoodIntakeDecline?: 0 | 1 | 2;
   mnaWeightLoss?: 0 | 1 | 2 | 3;
@@ -464,6 +518,7 @@ export interface RMOHandover {
   // Doctor assessment additions & auto-filled nurse vitals/pain
   assessmentType?: 'Doctor Assessment' | 'RMO Handover' | 'Doctor Round Note';
   doctorName?: string;
+  doctorDiagnosis?: string;
   nurseVitalsSummary?: string;
   nursePainRecord?: string;
   latestPainScore?: number;
@@ -904,6 +959,9 @@ export interface FormMaster {
   formCode: string;
   nursingModule: string;
   sectionName: string;
+  sections?: string[];
+  managementSequence?: string;
+  description?: string;
   displayOrder: number;
   isActive: boolean;
   createdAt: string;
@@ -916,13 +974,35 @@ export interface FieldMaster {
   fieldLabel: string;
   fieldType: 'text' | 'textarea' | 'number' | 'date' | 'time' | 'dropdown' | 'radio' | 'checkbox' | 'multi-select' | 'yes-no' | 'yesno';
   section: string;
+  managementSequence?: number;
   isRequired: boolean;
   dropdownOptions?: string[];
   placeholder?: string;
   minValue?: number;
   maxValue?: number;
+  unit?: string;
+  helpText?: string;
   displayOrder: number;
   isActive: boolean;
+  createdAt: string;
+}
+
+export interface DynamicFormSubmission {
+  id: string;
+  formId: string;
+  formName: string;
+  formCode: string;
+  patientId: string;
+  patientName?: string;
+  uhid?: string;
+  bed?: string;
+  date: string;
+  time: string;
+  nurseName: string;
+  nurseSignature?: string;
+  data: Record<string, any>;
+  status: 'Completed' | 'Draft';
+  notes?: string;
   createdAt: string;
 }
 
@@ -1038,6 +1118,7 @@ export interface EMRStore {
   familyEducationRecords?: FamilyEducationRecord[];
   formMaster: FormMaster[];
   fieldMaster: FieldMaster[];
+  dynamicFormSubmissions?: DynamicFormSubmission[];
   beds?: HospitalBed[];
   ventilators?: VentilatorDevice[];
   staff?: HospitalStaff[];

@@ -8,7 +8,7 @@ import {
   Heart, Sun, UserCheck, Dumbbell, Pill, BarChart2, Zap, GitBranch,
   ChevronDown, ChevronRight, Settings, BookOpen, RefreshCw,
   Users, TestTube, Wind, Building2, ShieldCheck, UserPlus, BedDouble, HeartPulse,
-  HeartHandshake, GraduationCap, CheckSquare
+  HeartHandshake, GraduationCap, CheckSquare, Sparkles
 } from 'lucide-react';
 import type { Patient } from '@/lib/types';
 
@@ -36,10 +36,11 @@ const NAV_GROUPS: NavGroup[] = [
     icon: <ClipboardList size={16} />,
     children: [
       { id: 'initial-assessment', label: 'Initial Nursing Assessment', icon: <ClipboardList size={14} /> },
-      { id: 'reassessment', label: 'Nursing Reassessment', icon: <RefreshCw size={14} /> },
+      { id: 'reassessment', label: 'Nursing Re-Assessment', icon: <RefreshCw size={14} /> },
       { id: 'final-assessment', label: 'Final Assessment', icon: <FileText size={14} /> },
       { id: 'emergency-assessment', label: 'Emergency Assessment', icon: <AlertTriangle size={14} /> },
       { id: 'daycare-assessment', label: 'Daycare Assessment', icon: <Sun size={14} /> },
+      { id: 'dynamic-forms', label: 'Dynamic Nursing Forms', icon: <Sparkles size={14} className="text-teal-400" /> },
     ],
   },
   {

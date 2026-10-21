@@ -29,6 +29,7 @@ import { FamilyEducationTab } from './tabs/FamilyEducationTab';
 import { MARTab } from './tabs/MARTab';
 import { FormMasterTab } from './tabs/FormMasterTab';
 import { FieldMasterTab } from './tabs/FieldMasterTab';
+import { DynamicFormsPatientTab } from './tabs/DynamicFormsPatientTab';
 
 interface NursingWorkspaceProps {
   activeTab: string;
@@ -72,6 +73,7 @@ export function NursingWorkspace({ activeTab }: NursingWorkspaceProps) {
       case 'own-medications': return <OwnMedicationsTab />;
       case 'form-master': return <FormMasterTab />;
       case 'field-master': return <FieldMasterTab />;
+      case 'dynamic-forms': return <DynamicFormsPatientTab />;
       default: return <NursingAssessmentTab type="initial" />;
     }
   };

@@ -12,6 +12,8 @@ import { EmergencyAdmissionModal } from '@/components/hospital/EmergencyAdmissio
 import { AmbulanceModal } from '@/components/hospital/AmbulanceModal';
 import { StaffAdminPage } from '@/components/hospital/StaffAdminPage';
 import { NABHComplianceCenter } from '@/components/compliance/NABHComplianceCenter';
+import { FormMasterTab } from '@/components/tabs/FormMasterTab';
+import { FieldMasterTab } from '@/components/tabs/FieldMasterTab';
 import type { Patient } from '@/lib/types';
 
 export function AppShell() {
@@ -80,7 +82,27 @@ export function AppShell() {
       return <NABHComplianceCenter />;
     }
 
-    // 5. Patients Directory (when no patient selected or activeTab === 'patients')
+    // 5. Administration: Form Master & Field Master (accessible globally)
+    if (activeTab === 'form-master') {
+      return (
+        <div className="p-4 max-w-7xl mx-auto overflow-y-auto">
+          <FormMasterTab onNavigateToFieldMaster={() => setActiveTab('field-master')} />
+        </div>
+      );
+    }
+    if (activeTab === 'field-master') {
+      return (
+        <div className="p-4 max-w-7xl mx-auto overflow-y-auto">
+          <FieldMasterTab />
+        </div>
+      );
+    }
+
+    if (activeTab === 'dynamic-forms' && !selectedPatient && store.patients.length > 0) {
+      selectPatient(store.patients[0]);
+    }
+
+    // 6. Patients Directory (when no patient selected or activeTab === 'patients')
     if (activeTab === 'patients' || !selectedPatient) {
       return (
         <PatientDashboard

@@ -9,6 +9,8 @@ interface EMRContextType {
   selectedPatient: Patient | null;
   selectPatient: (patient: Patient | null) => void;
   updateStore: (updater: (prev: EMRStore) => EMRStore) => void;
+  updatePatientDiagnosis: (patientId: string, diagnosis: string) => void;
+  updatePatientVulnerable: (patientId: string, isVulnerable: boolean, criteria?: string[]) => void;
   resetDemo: () => void;
   isLoading: boolean;
 }
@@ -40,6 +42,22 @@ export function EMRProvider({ children }: { children: React.ReactNode }) {
     setSelectedPatient(patient);
   }, []);
 
+  const updatePatientDiagnosis = useCallback((patientId: string, diagnosis: string) => {
+    updateStore(prev => {
+      const updatedPatients = prev.patients.map(p => p.id === patientId ? { ...p, diagnosis } : p);
+      return { ...prev, patients: updatedPatients };
+    });
+    setSelectedPatient(prev => (prev && prev.id === patientId ? { ...prev, diagnosis } : prev));
+  }, [updateStore]);
+
+  const updatePatientVulnerable = useCallback((patientId: string, isVulnerable: boolean, criteria?: string[]) => {
+    updateStore(prev => {
+      const updatedPatients = prev.patients.map(p => p.id === patientId ? { ...p, isVulnerable, vulnerableCriteria: criteria } : p);
+      return { ...prev, patients: updatedPatients };
+    });
+    setSelectedPatient(prev => (prev && prev.id === patientId ? { ...prev, isVulnerable, vulnerableCriteria: criteria } : prev));
+  }, [updateStore]);
+
   const resetDemo = useCallback(() => {
     resetStore();
     const data = getStore();
@@ -59,7 +77,16 @@ export function EMRProvider({ children }: { children: React.ReactNode }) {
   }
 
   return (
-    <EMRContext.Provider value={{ store, selectedPatient, selectPatient, updateStore, resetDemo, isLoading }}>
+    <EMRContext.Provider value={{
+      store,
+      selectedPatient,
+      selectPatient,
+      updateStore,
+      updatePatientDiagnosis,
+      updatePatientVulnerable,
+      resetDemo,
+      isLoading
+    }}>
       {children}
     </EMRContext.Provider>
   );

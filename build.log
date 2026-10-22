@@ -1,0 +1,21 @@
+
+> emr@0.1.0 build
+> next build
+
+▲ Next.js 16.4.0 (Turbopack)
+✓ Running next.config.ts took 49ms
+Attention: Next.js now collects completely anonymous telemetry regarding usage.
+This information is used to shape Next.js' roadmap and prioritize features.
+You can learn more, including how to opt-out if you'd not like to participate in this anonymous program, by visiting the following URL:
+https://nextjs.org/telemetry
+
+- Cache Components enabled
+- Partial Prefetching enabled
+
+  Creating an optimized production build ...
+✓ Compiled successfully in 8.9s
+  Running TypeScript ...
+src/components/AppShell.tsx(101,62): error TS2552: Cannot find name 'store'. Did you mean 'Storage'?
+src/components/AppShell.tsx(102,21): error TS2552: Cannot find name 'store'. Did you mean 'Storage'?
+Failed to type check.
+

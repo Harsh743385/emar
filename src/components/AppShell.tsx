@@ -17,7 +17,7 @@ import { FieldMasterTab } from '@/components/tabs/FieldMasterTab';
 import type { Patient } from '@/lib/types';
 
 export function AppShell() {
-  const { selectedPatient, selectPatient } = useEMR();
+  const { store, selectedPatient, selectPatient } = useEMR();
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [activeTab, setActiveTab] = useState('home');
   const [admissionModalOpen, setAdmissionModalOpen] = useState(false);

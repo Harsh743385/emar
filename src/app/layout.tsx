@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
 import { EMRProvider } from '@/context/EMRContext';
+import { SpeedInsights } from '@vercel/speed-insights/next';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -21,6 +22,7 @@ export default function RootLayout({
         <EMRProvider>
           {children}
         </EMRProvider>
+        <SpeedInsights />
       </body>
     </html>
   );
